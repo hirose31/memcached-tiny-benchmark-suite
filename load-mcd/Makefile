@@ -11,7 +11,7 @@ ifeq ($(UNAME),FreeBSD)
 # ...
 endif
 
-SOURCES  = bench-mcd-libmemcached.c # $(shell echo *.c)
+SOURCES  = load-mcd.c # $(shell echo *.c)
 PROGRAMS = $(SOURCES:.c=)
 
 all: $(PROGRAMS)
