@@ -98,7 +98,7 @@ sub format_diff {
 #           $diff->{bytes}/$diff->{uptime}, # bytes = curr_bytes
            $diff->{total_items}/$diff->{uptime},
 
-           $diff->{total_connections},
+           $diff->{total_connections}/$diff->{uptime},
            $diff->{curr_connections},
 
            $diff->{rusage_system},
