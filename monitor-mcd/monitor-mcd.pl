@@ -76,7 +76,7 @@ MAIN: {
 }
 
 sub print_legend {
-    print "                   read B/s  write B/s   set/s  get/s tot_item/s   stime  utime\n";
+    print "                   read B/s  write B/s   set/s   get/s  tot_item/s    con/s curr_con  stime  utime\n";
 }
 
 sub format_diff {
@@ -84,7 +84,7 @@ sub format_diff {
     return if $diff->{uptime} == 0;
 
     my ($sec, $microsec) = gettimeofday;
-    printf("%-8s.%06d: %10.2f %10.2f  %6d %6d  %9.2f  %6.3f %6.3f\n",
+    printf("%-8s.%06d: %10.2f %10.2f %7d %7d %11.2f %8d %8d %6.3f %6.3f\n",
            strftime("%02H:%02M:%02S", localtime($sec)),
            $microsec,
 
@@ -98,6 +98,9 @@ sub format_diff {
 #           $diff->{bytes}/$diff->{uptime}, # bytes = curr_bytes
            $diff->{total_items}/$diff->{uptime},
 
+           $diff->{total_connections},
+           $diff->{curr_connections},
+
            $diff->{rusage_system},
            $diff->{rusage_user},
            );
@@ -110,6 +113,9 @@ sub diff_stats {
 
     for my $key (grep { ! $skip{$_} } keys %{ $now }) {
         $diff->{ $key } = $now->{ $key } - $prev->{ $key };
+    }
+    for my $key (qw(curr_connections)) {
+        $diff->{ $key } = $now->{ $key };
     }
 
     return $diff;
